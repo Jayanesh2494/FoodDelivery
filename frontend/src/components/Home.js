@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../index.css"; // Assuming you have Tailwind CSS set up in index.css
 
 export default function Home({ id }) {
   const [user, setUser] = useState(null);
-
-  const handleLogin = () => {
-    // Simulate a login
-    setUser({ name: "John Doe", role: "user" });
-  };
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Simulate a logout
+    // Clear user data and navigate to home
+    localStorage.removeItem("token");
     setUser(null);
+    navigate("/");
   };
 
   return (
@@ -30,38 +28,36 @@ export default function Home({ id }) {
             >
               Home
             </Link>
-            <Link
-              to="/dashboard"
-              className="text-gray-700 hover:text-blue-500 font-semibold"
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/about"
-              className="text-gray-700 hover:text-blue-500 font-semibold"
-            >
-              About
-            </Link>
-            <Link
-              to="/contact"
-              className="text-gray-700 hover:text-blue-500 font-semibold"
-            >
-              Contact
-            </Link>
             {user ? (
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
-                onClick={handleLogout}
-              >
-                Log Out
-              </button>
+              <>
+                <Link
+                  to="/dashboard"
+                  className="text-gray-700 hover:text-blue-500 font-semibold"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
+                  onClick={handleLogout}
+                >
+                  Log Out
+                </button>
+              </>
             ) : (
-              <button
-                className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
-                onClick={handleLogin}
-              >
-                Log In
-              </button>
+              <>
+                <Link
+                  to="/login"
+                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none"
+                >
+                  Log In
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none"
+                >
+                  Register
+                </Link>
+              </>
             )}
           </div>
         </nav>
@@ -75,12 +71,6 @@ export default function Home({ id }) {
           Bringing your favorite meals right to your doorstep. Explore our menu
           and enjoy delicious food!
         </p>
-        <Link
-          to="/menu"
-          className="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600 focus:outline-none"
-        >
-          View Menu
-        </Link>
       </main>
 
       <footer className="bg-white shadow-inner py-4">
