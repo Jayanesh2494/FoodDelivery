@@ -9,11 +9,23 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb://localhost:27017/food_delivery", {
+// Connect to MongoDB
+mongoose.connect("mongodb://127.0.0.1:27017/FOOD", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
+const db = mongoose.connection;
+
+// Log connection success or error
+db.on("error", (error) => {
+  console.error("Connection error:", error);
+});
+db.once("open", () => {
+  console.log("MongoDB connected successfully");
+});
+
+// Routes
 app.post("/register", async (req, res) => {
   const { name, email, password } = req.body;
   try {
